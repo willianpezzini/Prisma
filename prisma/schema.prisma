@@ -1,0 +1,40 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+  //output   = "node_modules/@prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id String @id @default(uuid())
+  name String
+  email String
+  password String
+  phone String?
+
+  post Post[]
+
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+//Uma tabela no banco de dados deve sempre ser criada com letras minusculas e no plural.
+//Este @@map serve para indicar que a tabela de usuarios no Banco de dados deve ser criada com o nome que foi colocado ali. Neste exemplo, será users, se não for colocado isso, será criado com o nome do model.
+  @@map("users")
+}
+
+model Post {
+  id String @id @default(uuid())
+  id_user String
+  name String
+  content String @db.Text
+  author User @relation(fields: [id_user], references: [id])
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
