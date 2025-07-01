@@ -36,7 +36,6 @@ class PrismaUserRepository {
                 id
             }
         });
-        console.log(updateUser);
         return updateUser;
     }
 
@@ -46,8 +45,7 @@ class PrismaUserRepository {
                 id
             }
         });
-        console.log(deletUser);
-        return id;
+        return deletUser.id;
     }
 
      async getByEmail(email: string): Promise <User | null> {

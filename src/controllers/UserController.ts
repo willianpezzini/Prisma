@@ -71,6 +71,15 @@ class UserController {
 
     async delete(Req: Request, Res: Response) {
         try {
+
+            const { id } = Req.params;
+
+            if(!id) {
+                throw new Error("bad request id");
+            }
+
+            const userDeleted = await userService.delete(id);
+            Res.json(userDeleted);
             
         } catch (err: any) {
             Res.status(400).json({error: err.message});

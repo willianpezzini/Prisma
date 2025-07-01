@@ -48,6 +48,17 @@ class UserService {
         const updatedUser = await this._UserRepository.update(id, data);
         return updatedUser;
     }
+
+    async delete(id: string): Promise<{ id: string }> {
+        const userData = this._UserRepository.getById(id);
+
+        if(!userData) {
+            throw new Error("Usuário não encontrado!")
+        }
+
+        const userDeletdId = await this._UserRepository.delete(id);
+        return {id: userDeletdId};
+    }
 }
 
 export default UserService;
