@@ -11,39 +11,49 @@ class UserController {
 
     async create(Req: Request, Res: Response) {
         try {
-            
+
             const data = Req.body;
 
             if (!data.name || !data.email || !data.password) {
                 console.log(data);
                 throw new Error("Dados Obrigatórios não Preenchidos!");
             }
-            
+
             const userCreatedData = await userService.create(data);
             Res.json(userCreatedData);
         } catch (err: any) {
-            Res.status(400).json({error: err.message});
+            Res.status(400).json({ error: err.message });
         }
     }
-    
+
     async getAll(Req: Request, Res: Response) {
         try {
 
             const userData = await userService.getAll();
             Res.json(userData);
-            
+
         } catch (err: any) {
-            Res.status(400).json({error: err.message});
+            Res.status(400).json({ error: err.message });
+        }
+    }
+
+    async getByName(Req: Request, Res: Response) {
+        try {
+            const userData = await userService.getByName(Req.params.name);
+            return Res.json(userData);
+
+        } catch (err: any) {
+            Res.status(400).json({ error: err.message });
         }
     }
 
     async getById(Req: Request, Res: Response) {
         try {
             const userData = await userService.getById(Req.params.id);
-            Res.json(userData);
-            
+            return Res.json(userData);
+
         } catch (err: any) {
-            Res.status(400).json({error: err.message});
+            Res.status(400).json({ error: err.message });
         }
     }
 
@@ -57,15 +67,15 @@ class UserController {
                 throw new Error("Dados Obrigatórios não Preenchidos!");
             }
 
-            if(!id) {
+            if (!id) {
                 throw new Error("bad Request")
             }
 
             const updatedUser = await userService.update(id, data);
             Res.json(updatedUser);
-            
+
         } catch (err: any) {
-            Res.status(400).json({error: err.message});
+            Res.status(400).json({ error: err.message });
         }
     }
 
@@ -74,15 +84,15 @@ class UserController {
 
             const { id } = Req.params;
 
-            if(!id) {
+            if (!id) {
                 throw new Error("bad request id");
             }
 
             const userDeleted = await userService.delete(id);
             Res.json(userDeleted);
-            
+
         } catch (err: any) {
-            Res.status(400).json({error: err.message});
+            Res.status(400).json({ error: err.message });
         }
     }
 }

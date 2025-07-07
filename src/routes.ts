@@ -2,14 +2,14 @@ import { Router } from "express";
 
 import UserController from "./controllers/UserController";
 
-const userController = new UserController();
-
 const routes = Router();
 
-routes.get("/users", userController.getAll);
-routes.get("/users/:id",userController.getById);
-routes.post("/users",userController.create);
-routes.put("/users/:id",userController.update);
-routes.delete("/users/:id",userController.delete);
+const userController = new UserController();
+
+routes.post("/users", (req, res) => userController.create(req, res));
+routes.get("/users", (req, res) => userController.getAll(req, res));
+//routes.get("/users/:id",userController.getById(req, res));
+routes.put("/users/:id", (req, res) => userController.update(req, res));
+routes.delete("/users/:id", (req, res) => userController.delete(req, res));
 
 export default routes;

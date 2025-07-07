@@ -1,4 +1,4 @@
-import { data } from "react-router-dom";
+
 import InMemoryUserRepository from "../repositories/in-memory/InMemoryUserRepository";
 import PrismaUserRepository from "../repositories/prisma/PrismaUserRepository";
 
@@ -23,6 +23,17 @@ class UserService {
 
         return { data: userData};
     }
+
+    async getByName(name: string): Promise<{data: User}> {
+        const userData = await this._UserRepository.getByName(name);
+
+        if(!userData) {
+            throw new Error("Este Usuário não existe!")
+        }
+
+        return { data: userData};
+    }
+
 
     async create(data: User): Promise <{data: User}>{
 
@@ -50,7 +61,7 @@ class UserService {
     }
 
     async delete(id: string): Promise<{ id: string }> {
-        const userData = this._UserRepository.getById(id);
+        const userData = await this._UserRepository.getById(id);
 
         if(!userData) {
             throw new Error("Usuário não encontrado!")

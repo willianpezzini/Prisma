@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 import { User } from "../../models/User";
 import UsuarioPrismaRepository from "../prisma/PrismaUserRepository";
 
-class InMemoryUserRepository implements UsuarioPrismaRepository{
+class InMemoryUserRepository implements UsuarioPrismaRepository {
 
     public user: User[] = [];
 
@@ -26,7 +26,7 @@ class InMemoryUserRepository implements UsuarioPrismaRepository{
     async getById(id: string): Promise<User | null> {
         const dataUser = this.user.find((item) => item.id === id);
 
-        if(!dataUser) {
+        if (!dataUser) {
             return null;
         }
 
@@ -52,15 +52,26 @@ class InMemoryUserRepository implements UsuarioPrismaRepository{
         return id;
     }
 
-    async getByEmail(email: string): Promise <User | null> {
+    async getByEmail(email: string): Promise<User | null> {
         const dataUser = this.user.find((item) => item.email === email);
 
-        if(!dataUser) {
+        if (!dataUser) {
+            return null;
+        }
+
+        return dataUser;
+    }
+
+    async getByName(name: string): Promise<User | null> {
+        const dataUser = this.user.find((item) => item.name === name);
+
+        if (!dataUser) {
             return null;
         }
 
         return dataUser;
     }
 }
+
 
 export default InMemoryUserRepository;

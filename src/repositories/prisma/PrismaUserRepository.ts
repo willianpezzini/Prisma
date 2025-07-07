@@ -9,14 +9,24 @@ class PrismaUserRepository {
 
     async getAll(): Promise<User[]> {
         const users = await prisma.user.findMany();
-        console.log(users);
         return users;
     }
 
-     async getById(id: string): Promise<User | null> {
-        const user = await prisma.user.findFirst({
+    async getById(id: string): Promise<User | null> {
+        const user = await prisma.user.findUnique({
             where: {
                 id
+            }
+        });
+        return user;
+    }
+
+    async getByName(name: string): Promise<User | null> {
+        const user = await prisma.user.findFirst({
+            where: {
+                name: {
+                    contains: name,
+                }
             }
         });
         return user;
@@ -48,7 +58,7 @@ class PrismaUserRepository {
         return deletUser.id;
     }
 
-     async getByEmail(email: string): Promise <User | null> {
+    async getByEmail(email: string): Promise<User | null> {
         const user = await prisma.user.findFirst({
             where: {
                 email
