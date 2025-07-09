@@ -21,15 +21,15 @@ class PrismaUserRepository {
         return user;
     }
 
-    async getByName(name: string): Promise<User | null> {
-        const user = await prisma.user.findFirst({
+    async getByName(name: string): Promise<User[] | null> {
+        const users = await prisma.user.findMany({
             where: {
                 name: {
                     contains: name,
                 }
             }
         });
-        return user;
+        return users;
     }
 
     async create(data: User): Promise<User> {

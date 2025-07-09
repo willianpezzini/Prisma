@@ -6,10 +6,9 @@ import PrismaUserRepository from "../repositories/prisma/PrismaUserRepository";
 import { User } from "../models/User";
 class UserService {
 
-    constructor(private _UserRepository: InMemoryUserRepository | PrismaUserRepository) {}
+    constructor(private _UserRepository: PrismaUserRepository) {}
 
     async getAll(): Promise<{data: User[]}> {
-
         const userData = await this._UserRepository.getAll();
         return { data: userData};
     }
@@ -24,10 +23,10 @@ class UserService {
         return { data: userData};
     }
 
-    async getByName(name: string): Promise<{data: User}> {
+    async getByName(name: string): Promise<{data: User[] }> {
         const userData = await this._UserRepository.getByName(name);
 
-        if(!userData) {
+        if(!userData || userData.length === 0) {
             throw new Error("Este Usuário não existe!")
         }
 

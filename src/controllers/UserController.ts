@@ -38,6 +38,7 @@ class UserController {
     }
 
     async getByName(Req: Request, Res: Response) {
+
         try {
             const userData = await userService.getByName(Req.params.name);
             return Res.json(userData);
